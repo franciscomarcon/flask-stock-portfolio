@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<!-- The html is based on the staff's solution,
+     I got from my browser's developer tools-->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Symbol</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Transaction</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">TOTAL</th>
+                <th class="text-end">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in table %}
+                <tr>
+                    <td class="text-start">{{ i["symbol"] }}</td>
+                    <td class="text-end">{{ i["shares"] }}</td>
+                    <td class="text-end">{{ i["type"] }}</td>
+                    <td class="text-end">{{ i["price"] | usd}}</td>
+                    <td class="text-end">{{ (i["price"] * i["shares"]) | usd}}</td>
+                    <td class="text-end">{{ i["datetime"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

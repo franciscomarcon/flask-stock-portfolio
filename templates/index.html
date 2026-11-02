@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<!-- The html is based on the staff's solution,
+     I got from my browser's developer tools-->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Symbol</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in table %}
+                <tr>
+                    <td class="text-start">{{ i["symbol"] }}</td>
+                    <td class="text-end">{{ i["shares"] }}</td>
+                    <td class="text-end">{{ i["price"] | usd}}</td>
+                    <td class="text-end">{{ (i["price"] * i["shares"]) | usd}}</td>
+                    <form action="/buy" method="post">
+                        <input name="symbol" type="hidden" value="{{ i["symbol"] }}">
+                        <td class="text-start">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" name="shares" placeholder="Shares" type="number" min="1" step="1">
+                        </td>
+                        <td class="text-start">
+                            <button class="btn btn-primary" type="submit">Buy</button>
+                        </td>
+                    </form>
+                    <form action="/sell" method="post">
+                        <input name="symbol" type="hidden" value="{{ i["symbol"] }}">
+                        <td class="text-start">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" name="shares" placeholder="Shares" type="number" min="1" step="1">
+                        </td>
+                        <td class="text-start">
+                            <button class="btn btn-primary" type="submit">Sell</button>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="3">Cash</td>
+                <td class="border-0 text-end">{{ cash | usd}}</td>
+            </tr>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="3">Total</td>
+                <td class="border-0 w-bold text-end">{{ total | usd}}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
